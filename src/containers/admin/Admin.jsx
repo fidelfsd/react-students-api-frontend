@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import userService from "../../_services/userService";
-import { UsersList } from "../../components";
+import { DataListTable, UsersList } from "../../components";
+import { dateFormat } from "../../_utils/date";
 
 export default function Admin() {
    //hooks
@@ -56,6 +57,14 @@ export default function Admin() {
       }
    };
 
+   const newUsers = (users) =>
+      users.map((user) => {
+         user.alumno = user?.alumno ? "YES" : "NO";
+         user.role = user?.role ? user.role.role : "undefined";
+         user.fecha_nacimiento = dateFormat(user.fecha_nacimiento);
+         return user;
+      });
+
    return (
       <>
          {isAdmin && (
@@ -66,6 +75,36 @@ export default function Admin() {
                   page={usersPage}
                   pages={usersPages}
                   count={usersCount}
+                  onChange={handleUsersList}
+               />
+
+               <br />
+
+               <DataListTable
+                  data={newUsers(users)}
+                  title="Doctors"
+                  count={usersCount}
+                  headers={[
+                     "ID",
+                     "Name",
+                     "Last name",
+                     "Email",
+                     "Birthday",
+                     "alumno",
+                  ]}
+                  attributes={[
+                     "id",
+                     "nombre",
+                     "apellidos",
+                     "email",
+                     "fecha_nacimiento",
+                     "alumno",
+                  ]}
+                  pagination={{
+                     page: usersPage,
+                     pages: usersPages,
+                     count: usersCount,
+                  }}
                   onChange={handleUsersList}
                />
             </>

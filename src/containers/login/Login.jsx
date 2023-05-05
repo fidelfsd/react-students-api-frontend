@@ -74,7 +74,7 @@ export default function Login() {
             <br />
             <label htmlFor="">Password</label> <br />
             <input
-               type="text"
+               type="password"
                name="password"
                value={formValues.password}
                onChange={handleChange}
