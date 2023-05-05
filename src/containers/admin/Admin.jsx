@@ -8,6 +8,7 @@ export default function Admin() {
    //hooks
    const [users, setUsers] = useState([]);
    const [usersPage, setUsersPage] = useState(1);
+   const [usersPages, setUsersPages] = useState(0);
    const [usersCount, setUsersCount] = useState(0);
 
    const navigate = useNavigate();
@@ -49,6 +50,7 @@ export default function Admin() {
          const response = await userService.getAllUsers(token, page);
          setUsers(response.results);
          setUsersCount(response.info.total_results);
+         setUsersPages(response.info.total_pages);
       } catch (error) {
          console.log(error);
       }
@@ -62,6 +64,7 @@ export default function Admin() {
                <UsersList
                   users={users}
                   page={usersPage}
+                  pages={usersPages}
                   count={usersCount}
                   onChange={handleUsersList}
                />
